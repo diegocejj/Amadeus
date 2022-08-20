@@ -21,48 +21,82 @@
 
 #include "./Amadeus.h"
 
-using namespace std;
+ /*!
+  * @brief Construct class
+  *
+  */
+Globals_Var::Globals_Var() 
+{
 
+}
 
+/*!
+ * @brief destroy class
+ *
+ */
+__fastcall Globals_Var::~Globals_Var()
+{
+
+}
 
 // Function
 const auto getEventWithMaxOccurrences(vector <string> events)
 {
-    // length vector
-    cout << "Length events: " << events.size() << endl;
-    unsigned int length = events.size();
-
-    // Define variable
-    char word[255];
-
+    vector <string> actions = { "WRITE", "READ", "STATS", "ERROR" };
+    
+    // Define struct
+    event_max_str event_max;
+    unsigned char position = 0;
+    unsigned int cmp_value = 0;
+    
     // Ocurrency for word
     unsigned int ocurrency[10];
     memset(ocurrency, 0, sizeof(ocurrency));        // clean vector
+    
+    // length vector
+    cout << "Length events: " << events.size() << endl;
 
     // orden alfabetics
     sort(events.begin(), events.end());
 
-    // algorithm
-    for (int i = 0; i < length; i++) {
+    // ---------------------------------------------------------------
+    // algorithm ocurrency events
+    // ---------------------------------------------------------------
+    for (int i = 0; i < events.size(); i++) {
 
         cout << "Name events["<< i << "]: " << events[i] << endl;
 
- /*       if (events[i] == "WRITE") {
+        if (events[i] == "WRITE") {
             ocurrency[0] += 1;
         }        
-        if (events[i] = "READ") {
+        if (events[i] == "READ") {
             ocurrency[1] += 1;
         }
-        if (events[i] = "STATS") {
+        if (events[i] == "STATS") {
             ocurrency[2] += 1;
         }
-        if (events[i] = "ERROR") {
-            ocurrency[4] += 1;
-        }*/
+        if (events[i] == "ERROR") {
+            ocurrency[3] += 1;
+        }
     }
-    
 
-    return 0;
+    // ---------------------------------------------------------------
+    cmp_value = ocurrency[0];
+    position = 0;
+
+    for (int i = 0; i < actions.size(); i++) {
+        if (ocurrency[i] >= cmp_value){
+            event_max.second = ocurrency[i];
+            cmp_value = ocurrency[i];
+            position = i;
+        }
+    }
+    // ---------------------------------------------------------------
+
+    event_max.first = actions[position];
+    event_max.second = cmp_value;
+    
+    return event_max;
 }
 
 int main()
@@ -76,7 +110,7 @@ int main()
     // Call function
     const auto event_with_max_occurrences = getEventWithMaxOccurrences(events);
 
-    //std::cout << "event: " << event_with_max_occurrences.first << " , # occurrences: " << event_with_max_occurrences.second << std::endl;
+    cout << "event: " << event_with_max_occurrences.first << " , # occurrences: " << event_with_max_occurrences.second << endl;
 
     // should output
     //event: WRITE, # occurrences : 4

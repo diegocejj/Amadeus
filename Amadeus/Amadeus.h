@@ -42,12 +42,11 @@ using namespace std;
 //#endif
 
 /*! Struct contain events*/
-struct evento
+typedef struct event_max_str
 {
 	string first;
 	unsigned int second;
 };
-
 
 /**
  * @brief Clase con variables globales del software FMF-1000
@@ -58,11 +57,12 @@ class Globals_Var
 	public:		// Public function administration
 		Globals_Var();
 		__fastcall ~Globals_Var();
+
 	
 	private:	// Private function administration
 		
-		struct evento event_with_max_occurrences;
 		const auto getEventWithMaxOccurrences(vector <string> event);
+
 };
 
 #endif
